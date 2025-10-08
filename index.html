@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Simple Page</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #74b9ff, #a29bfe);
+      color: #2d3436;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #fff;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      color: #dfe6e9;
+      margin-top: 0.5rem;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #0984e3;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #74b9ff;
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      font-size: 0.9rem;
+      color: #dfe6e9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to My Page</h1>
+    <p>A simple and clean starter design</p>
+  </header>
+
+  <div class="card">
+    <h2>Hello, World!</h2>
+    <p>This is a sample card component styled using pure CSS.</p>
+    <a href="#" class="btn">Learn More</a>
+  </div>
+
+  <footer>© 2025 Bhoomash | All Rights Reserved</footer>
+</body>
+</html>
