@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Simple Page</title>
+  <title>CSS Grid Layout</title>
   <style>
     /* Basic Reset */
     * {
@@ -14,76 +14,142 @@
     }
 
     body {
-      background: linear-gradient(135deg, #74b9ff, #a29bfe);
-      color: #2d3436;
       min-height: 100vh;
+      background: #f8f9fa;
+    }
+
+    /* CSS Grid Container */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr;
+      grid-template-rows: auto 1fr 1fr auto;
+      grid-template-areas: 
+        "header header header"
+        "sidebar content1 content1"
+        "sidebar content2 content3"
+        "footer footer footer";
+      min-height: 100vh;
+      gap: 3px;
+      background: #fff;
+      border: 3px solid #333;
+    }
+
+    /* Grid Items */
+    .header {
+      grid-area: header;
+      background: #00ff00;
+      padding: 20px;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      border: 2px solid #333;
     }
 
-    header {
+    .sidebar {
+      grid-area: sidebar;
+      background: #00ff00;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #333;
+      writing-mode: vertical-lr;
+      text-orientation: mixed;
+    }
+
+    .content1 {
+      grid-area: content1;
+      background: #00ff00;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #333;
+    }
+
+    .content2 {
+      grid-area: content2;
+      background: #00ff00;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #333;
+    }
+
+    .content3 {
+      grid-area: content3;
+      background: #00ff00;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #333;
+    }
+
+    .footer {
+      grid-area: footer;
+      background: #00ff00;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #333;
+    }
+
+    /* Typography */
+    .grid-item {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
       text-align: center;
-      margin-bottom: 2rem;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      color: #fff;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    p {
-      color: #dfe6e9;
-      margin-top: 0.5rem;
-    }
-
-    .card {
-      background-color: #fff;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .btn {
-      display: inline-block;
-      background: #0984e3;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      margin-top: 1.5rem;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: #74b9ff;
-      transform: scale(1.05);
-    }
-
-    footer {
-      position: absolute;
-      bottom: 15px;
-      font-size: 0.9rem;
-      color: #dfe6e9;
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+          "header"
+          "sidebar"
+          "content1"
+          "content2"
+          "content3"
+          "footer";
+      }
+      
+      .sidebar {
+        writing-mode: horizontal-tb;
+        text-orientation: mixed;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to My Page</h1>
-    <p>A simple and clean starter design</p>
-  </header>
-
-  <div class="card">
-    <h2>Hello, World!</h2>
-    <p>This is a sample card component styled using pure CSS.</p>
-    <a href="#" class="btn">Learn More</a>
+  <div class="grid-container">
+    <div class="header grid-item">
+      Header
+    </div>
+    
+    <div class="sidebar grid-item">
+      Side Bar
+    </div>
+    
+    <div class="content1 grid-item">
+      Content 1
+    </div>
+    
+    <div class="content2 grid-item">
+      Content 2
+    </div>
+    
+    <div class="content3 grid-item">
+      Content 3
+    </div>
+    
+    <div class="footer grid-item">
+      Footer
+    </div>
   </div>
-
-  <footer>© 2025 Bhoomash | All Rights Reserved</footer>
 </body>
 </html>
