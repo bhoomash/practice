@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CSS Grid Layout</title>
   <style>
-    /* Basic Reset */
     * {
-      margin: 0;
-      padding: 0;
+      margin: 60px;
+      padding: 20px;
       box-sizing: border-box;
       font-family: "Poppins", sans-serif;
     }
@@ -16,96 +15,89 @@
     body {
       min-height: 100vh;
       background: #f8f9fa;
+      gap: 20px;
     }
-
-    /* CSS Grid Container */
     .grid-container {
       display: grid;
-      grid-template-columns: 200px 1fr 1fr;
+      grid-template-columns: 100px 1fr 1fr;
       grid-template-rows: auto 1fr 1fr auto;
       grid-template-areas: 
         "header header header"
         "sidebar content1 content1"
         "sidebar content2 content3"
         "footer footer footer";
-      min-height: 100vh;
-      gap: 3px;
-      background: #fff;
-      border: 3px solid #333;
+      min-height: 10vh;
+      gap: 100px;
+      background: #541771;
+      border: 3px solid #bababa;
     }
-
-    /* Grid Items */
     .header {
       grid-area: header;
-      background: #00ff00;
+      background: #721153;
       padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #333;
+      border: 2px solid #bababa;
     }
 
     .sidebar {
       grid-area: sidebar;
-      background: #00ff00;
+      background: #660454;
       padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #333;
+      border: 2px solid#bababa;
       writing-mode: vertical-lr;
       text-orientation: mixed;
     }
 
     .content1 {
       grid-area: content1;
-      background: #00ff00;
+      background: #98098c;
       padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #333;
+      border: 2px solid #bababa;
     }
 
     .content2 {
       grid-area: content2;
-      background: #00ff00;
+      background: #8d0c7b;
       padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #333;
+      border: 2px solid #bababa;
     }
 
     .content3 {
       grid-area: content3;
-      background: #00ff00;
+      background: #a30b6e;
       padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #333;
+      border: 2px solid #bababa;
     }
 
     .footer {
       grid-area: footer;
-      background: #00ff00;
+      background: #590832;
       padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #333;
+      border: 2px solid #bababa;
     }
-
-    /* Typography */
     .grid-item {
       font-size: 18px;
       font-weight: 600;
-      color: #333;
+      color: #bab9b9;
       text-align: center;
     }
-
-    /* Responsive Design */
     @media (max-width: 768px) {
       .grid-container {
         grid-template-columns: 1fr;
@@ -120,7 +112,7 @@
       
       .sidebar {
         writing-mode: horizontal-tb;
-        text-orientation: mixed;
+       
       }
     }
   </style>
@@ -128,27 +120,27 @@
 <body>
   <div class="grid-container">
     <div class="header grid-item">
-      Header
+      Avinashi road
     </div>
     
     <div class="sidebar grid-item">
-      Side Bar
+      Mettupalayam road
     </div>
     
     <div class="content1 grid-item">
-      Content 1
+      tiruppur road
     </div>
     
     <div class="content2 grid-item">
-      Content 2
+      Coimbatore road
     </div>
     
     <div class="content3 grid-item">
-      Content 3
+      Pollachi road
     </div>
     
     <div class="footer grid-item">
-      Footer
+      salem road
     </div>
   </div>
 </body>
