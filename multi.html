@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator with Promises</title>
+</head>
+<body>
+    <h1>Calculator with Promises</h1>
+    
+    <p>First Number: <input type="number" id="num1"></p>
+    <p>Second Number: <input type="number" id="num2"></p>
+    
+    <button onclick="performOperation('add')">Add</button>
+    <button onclick="performOperation('multiply')">Multiply</button>
+    <button onclick="performOperation('subtract')">Subtract</button>
+    
+    <p id="result">Result will appear here...</p>
+
+    <script>
+        function add(a, b) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(a + b);
+                }, 500);
+            });
+        }
+
+        function multiply(a, b) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(a * b);
+                }, 500);
+            });
+        }
+
+        function subtract(a, b) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(a - b);
+                }, 500);
+            });
+        }
+
+        async function performOperation(operation) {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const resultDiv = document.getElementById('result');
+
+            if (isNaN(num1) || isNaN(num2)) {
+                resultDiv.innerHTML = 'Please enter valid numbers';
+                return;
+            }
+
+            resultDiv.innerHTML = 'Calculating...';
+
+            try {
+                let result;
+                switch(operation) {
+                    case 'add':
+                        result = await add(num1, num2);
+                        resultDiv.innerHTML = `${num1} + ${num2} = ${result}`;
+                        break;
+                    case 'multiply':
+                        result = await multiply(num1, num2);
+                        resultDiv.innerHTML = `${num1} × ${num2} = ${result}`;
+                        break;
+                    case 'subtract':
+                        result = await subtract(num1, num2);
+                        resultDiv.innerHTML = `${num1} - ${num2} = ${result}`;
+                        break;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = 'Error occurred during calculation';
+            }
+        }
+    </script>
+</body>
+</html>

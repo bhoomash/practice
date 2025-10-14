@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .task-list {
+            min-height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .task-item {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid #007bff;
+        }
+
+        .task-item.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+            border-left-color: #28a745;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .stats {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .color-picker {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .theme-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="pageTitle">Task Manager</h1>
+        
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="Enter a new task...">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+
+        <div class="controls">
+            <button onclick="clearAllTasks()">Clear All</button>
+            <button onclick="toggleAllTasks()">Toggle All</button>
+            <button onclick="changeTitle()">Change Title</button>
+            <button onclick="addRandomTask()">Add Random Task</button>
+        </div>
+
+        <div class="task-list" id="taskList">
+            <div class="empty-state" id="emptyState">
+                No tasks yet. Add some tasks to get started!
+            </div>
+        </div>
+
+        <div class="stats" id="stats">
+            <strong>Total: 0 | Completed: 0 | Remaining: 0</strong>
+        </div>
+
+        <div class="color-picker">
+            <label for="colorPicker">Background Color: </label>
+            <input type="color" id="colorPicker" value="#f5f5f5">
+            <div class="theme-buttons">
+                <button onclick="setTheme('light')">Light</button>
+                <button onclick="setTheme('dark')">Dark</button>
+                <button onclick="setTheme('blue')">Blue</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let taskCount = 0;
+        let tasks = [];
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const taskText = input.value.trim();
+            
+            if (taskText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+
+            const task = {
+                id: ++taskCount,
+                text: taskText,
+                completed: false
+            };
+            
+            tasks.push(task);
+            renderTasks();
+            input.value = '';
+            input.focus();
+        }
+
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            const emptyState = document.getElementById('emptyState');
+            
+            taskList.innerHTML = '';
+            
+            if (tasks.length === 0) {
+                taskList.appendChild(emptyState);
+            } else {
+                tasks.forEach(task => {
+                    const taskElement = createTaskElement(task);
+                    taskList.appendChild(taskElement);
+                });
+            }
+            
+            updateStats();
+        }
+
+        function createTaskElement(task) {
+            const taskDiv = document.createElement('div');
+            taskDiv.className = 'task-item';
+            taskDiv.id = `task-${task.id}`;
+            
+            if (task.completed) {
+                taskDiv.classList.add('completed');
+            }
+
+            const taskText = document.createElement('span');
+            taskText.textContent = task.text;
+            taskText.onclick = () => toggleTask(task.id);
+            taskText.style.cursor = 'pointer';
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'task-actions';
+
+            const completeBtn = document.createElement('button');
+            completeBtn.textContent = task.completed ? 'Undo' : 'Complete';
+            completeBtn.className = 'btn-small btn-success';
+            completeBtn.onclick = () => toggleTask(task.id);
+
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.className = 'btn-small';
+            editBtn.onclick = () => editTask(task.id);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.className = 'btn-small btn-danger';
+            deleteBtn.onclick = () => deleteTask(task.id);
+
+            actionsDiv.appendChild(completeBtn);
+            actionsDiv.appendChild(editBtn);
+            actionsDiv.appendChild(deleteBtn);
+
+            taskDiv.appendChild(taskText);
+            taskDiv.appendChild(actionsDiv);
+
+            return taskDiv;
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                renderTasks();
+            }
+        }
+
+        function editTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                const newText = prompt('Edit task:', task.text);
+                if (newText && newText.trim() !== '') {
+                    task.text = newText.trim();
+                    renderTasks();
+                }
+            }
+        }
+
+        function deleteTask(id) {
+            if (confirm('Are you sure you want to delete this task?')) {
+                tasks = tasks.filter(t => t.id !== id);
+                renderTasks();
+            }
+        }
+
+        function clearAllTasks() {
+            if (tasks.length === 0) return;
+            
+            if (confirm('Are you sure you want to clear all tasks?')) {
+                tasks = [];
+                taskCount = 0;
+                renderTasks();
+            }
+        }
+
+        function toggleAllTasks() {
+            if (tasks.length === 0) return;
+            
+            const allCompleted = tasks.every(task => task.completed);
+            tasks.forEach(task => task.completed = !allCompleted);
+            renderTasks();
+        }
+
+        function changeTitle() {
+            const newTitle = prompt('Enter new title:', 'Task Manager');
+            if (newTitle) {
+                document.getElementById('pageTitle').textContent = newTitle;
+                document.title = newTitle;
+            }
+        }
+
+        function addRandomTask() {
+            const randomTasks = [
+                'Learn JavaScript',
+                'Practice CSS',
+                'Build a website',
+                'Study HTML',
+                'Master flexbox',
+                'Explore CSS Grid',
+                'Create forms',
+                'Implement storage',
+                'Add events',
+                'Optimize performance'
+            ];
+            
+            const randomTask = randomTasks[Math.floor(Math.random() * randomTasks.length)];
+            document.getElementById('taskInput').value = randomTask;
+            addTask();
+        }
+
+        function updateStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(task => task.completed).length;
+            const remaining = total - completed;
+            
+            const statsElement = document.getElementById('stats');
+            statsElement.innerHTML = `<strong>Total: ${total} | Completed: ${completed} | Remaining: ${remaining}</strong>`;
+        }
+
+        function setTheme(theme) {
+            const body = document.body;
+            const container = document.querySelector('.container');
+            
+            switch(theme) {
+                case 'light':
+                    body.style.background = '#f5f5f5';
+                    container.style.background = 'white';
+                    container.style.color = '#333';
+                    break;
+                case 'dark':
+                    body.style.background = '#333';
+                    container.style.background = '#444';
+                    container.style.color = 'white';
+                    break;
+                case 'blue':
+                    body.style.background = '#e3f2fd';
+                    container.style.background = 'white';
+                    container.style.color = '#333';
+                    break;
+            }
+        }
+
+        document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+
+        document.getElementById('colorPicker').addEventListener('change', function(e) {
+            document.body.style.background = e.target.value;
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            tasks = [
+                { id: 1, text: 'Welcome to Task Manager!', completed: false },
+                { id: 2, text: 'Try adding and editing tasks', completed: false },
+                { id: 3, text: 'Change themes and colors', completed: false }
+            ];
+            taskCount = 3;
+            renderTasks();
+        });
+    </script>
+</body>
+</html>
